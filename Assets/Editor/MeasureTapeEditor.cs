@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 
@@ -74,3 +75,4 @@ public class MeasureTapeEditor : Editor
         _target.endPoint = Handles.PositionHandle(_target.endPoint, Quaternion.identity);
     }
 }
+#endif
