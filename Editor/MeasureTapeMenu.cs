@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 
@@ -41,3 +42,4 @@ public class MeasureTapeMenu : MonoBehaviour
         go.AddComponent(typeof(MeasureTape));
     }
 }
+#endif

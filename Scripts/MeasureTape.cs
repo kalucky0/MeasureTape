@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -29,4 +30,4 @@ public class MeasureTape : MonoBehaviour
         Gizmos.DrawLine(startPoint, endPoint);
     }
 }
-
+#endif
