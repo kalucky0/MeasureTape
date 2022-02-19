@@ -1,9 +1,9 @@
-#if UNITY_EDITOR
 using UnityEngine;
 
 [ExecuteInEditMode]
 public class MeasureTape : MonoBehaviour
 {
+#if UNITY_EDITOR
     public Color lineColor = Color.yellow;
     public bool initialized = false;
     public Vector3 startPoint = Vector3.zero;
@@ -29,5 +29,5 @@ public class MeasureTape : MonoBehaviour
         Gizmos.DrawCube(endPoint, new Vector3(gizmoSize, gizmoSize, gizmoSize));
         Gizmos.DrawLine(startPoint, endPoint);
     }
-}
 #endif
+}

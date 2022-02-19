@@ -1,7 +1,7 @@
 {
     "name": "dev.kalucky0.measuretape",
     "displayName": "MeasureTape",
-    "version": "0.0.4",
+    "version": "0.1.0",
     "unity": "2020.1",
     "description": "MeasureTape is a Unity Editor extension that gives you the ability to measure GameObjects in your scene.",
     "author": "kalucky0",
