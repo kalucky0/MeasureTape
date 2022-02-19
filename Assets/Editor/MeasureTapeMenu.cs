@@ -1,9 +1,9 @@
-#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 
 public class MeasureTapeMenu : MonoBehaviour
 {
+#if UNITY_EDITOR
     [MenuItem("GameObject/Create MeasureTape", false, 0)]
     static void CreateMeasureTape()
     {
@@ -41,5 +41,5 @@ public class MeasureTapeMenu : MonoBehaviour
     {
         go.AddComponent(typeof(MeasureTape));
     }
-}
 #endif
+}
