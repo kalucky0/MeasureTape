@@ -2,21 +2,19 @@
 using UnityEngine;
 using UnityEditor;
 
-[ExecuteInEditMode]
 [CustomEditor(typeof(MeasureTape))]
-public class MeasureTapeEditor : Editor
+public sealed class MeasureTapeEditor : Editor
 {
     private MeasureTape _target;
-    private GUIStyle style = new GUIStyle();
+    private readonly GUIStyle _style = new();
 
-    void OnEnable()
+    private void OnEnable()
     {
-        style.fontStyle = FontStyle.Bold;
-        style.normal.textColor = Color.white;
+        _style.fontStyle = FontStyle.Bold;
+        _style.normal.textColor = Color.white;
         _target = (MeasureTape)target;
 
-        if (!_target.initialized)
-            _target.initialized = true;
+        if (!_target.initialized) _target.initialized = true;
     }
 
     public override void OnInspectorGUI()
@@ -24,29 +22,48 @@ public class MeasureTapeEditor : Editor
         EditorGUILayout.BeginVertical();
 
         EditorGUILayout.PrefixLabel("Gizmo radius");
-        _target.gizmoSize = Mathf.Clamp(EditorGUILayout.Slider(_target.gizmoSize, 0.1f, 3.0f, GUILayout.ExpandWidth(false)), 0.1f, 100);
+        _target.gizmoSize = Mathf.Clamp(
+            EditorGUILayout.Slider(
+                _target.gizmoSize,
+                0.1f, 3.0f,
+                GUILayout.ExpandWidth(false)
+            ), 0.1f, 100);
 
         EditorGUILayout.Separator();
 
         EditorGUILayout.PrefixLabel("Gizmo color");
-        _target.lineColor = EditorGUILayout.ColorField(_target.lineColor, GUILayout.ExpandWidth(false));
+        _target.lineColor = EditorGUILayout.ColorField(
+            _target.lineColor,
+            GUILayout.ExpandWidth(false)
+        );
 
         EditorGUILayout.Separator();
         EditorGUILayout.Separator();
 
-        _target.showCentimeters = EditorGUILayout.Toggle("Show centimeters", _target.showCentimeters, GUILayout.ExpandWidth(false));
+        _target.showCentimeters = EditorGUILayout.Toggle(
+            "Show centimeters",
+            _target.showCentimeters,
+            GUILayout.ExpandWidth(false)
+        );
 
-        _target.scaleToPixels = EditorGUILayout.Toggle("Show scale/pixel", _target.scaleToPixels, GUILayout.ExpandWidth(false));
+        _target.scaleToPixels = EditorGUILayout.Toggle(
+            "Show scale/pixel",
+            _target.scaleToPixels,
+            GUILayout.ExpandWidth(false)
+        );
 
-        _target.pixelsPerUnit = EditorGUILayout.IntField("Pixels per unit", _target.pixelsPerUnit, GUILayout.ExpandWidth(false));
+        _target.pixelsPerUnit = EditorGUILayout.IntField(
+            "Pixels per unit",
+            _target.pixelsPerUnit,
+            GUILayout.ExpandWidth(false)
+        );
 
         EditorGUILayout.EndVertical();
 
-        if (GUI.changed)
-            EditorUtility.SetDirty(_target);
+        if (GUI.changed) EditorUtility.SetDirty(_target);
     }
 
-    void OnSceneGUI()
+    private void OnSceneGUI()
     {
         Undo.RecordObject(_target, "measuretape undo");
 
@@ -58,17 +75,23 @@ public class MeasureTapeEditor : Editor
             float meters = Mathf.Floor(distance);
             float cmeters = (distance - meters) * 100;
 
-            if (_target.scaleToPixels)
-                Handles.Label(_target.endPoint, "        Distance from start point: " + meters + "m " + cmeters + "cm - Scale per pixel: " + scalePerPixel + "px", style);
-            else
-                Handles.Label(_target.endPoint, "        Distance from start point: " + meters + "m " + cmeters + "cm", style);
+            Handles.Label(
+                _target.endPoint,
+                _target.scaleToPixels
+                    ? $"        Distance from start point: {meters}m {cmeters}cm - Scale per pixel: {scalePerPixel}px"
+                    : $"        Distance from start point: {meters}m {cmeters}cm",
+                _style
+            );
         }
         else
         {
-            if (_target.scaleToPixels)
-                Handles.Label(_target.endPoint, "        Distance from start point: " + distance + "m - Scale per pixel: " + scalePerPixel + "px", style);
-            else
-                Handles.Label(_target.endPoint, "        Distance from start point: " + distance + "m", style);
+            Handles.Label(
+                _target.endPoint,
+                _target.scaleToPixels
+                    ? $"        Distance from start point: {distance}m - Scale per pixel: {scalePerPixel}px"
+                    : $"        Distance from start point: {distance}m",
+                _style
+            );
         }
 
         _target.startPoint = Handles.PositionHandle(_target.startPoint, Quaternion.identity);
