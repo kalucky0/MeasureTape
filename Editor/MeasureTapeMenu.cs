@@ -1,43 +1,47 @@
 using UnityEngine;
 using UnityEditor;
 
-public class MeasureTapeMenu : MonoBehaviour
+public sealed class MeasureTapeMenu : MonoBehaviour
 {
 #if UNITY_EDITOR
     [MenuItem("GameObject/Create MeasureTape", false, 0)]
-    static void CreateMeasureTape()
+    private static void CreateMeasureTape()
     {
         if (Selection.activeGameObject != null)
         {
             if (Selection.activeGameObject.name == "MeasureTape")
             {
-                addNewMeasureTape(Selection.activeGameObject);
+                AddNewMeasureTape(Selection.activeGameObject);
             }
             else
             {
                 if (GameObject.Find("MeasureTape") != null)
-                    EditorUtility.DisplayDialog("MeasureTape Warning", "Oops, You need to select a MeasureTape to add an additional copy of the tool.", "OK");
+                    EditorUtility.DisplayDialog(
+                        "MeasureTape Warning",
+                        "Oops, You need to select a MeasureTape to add an additional copy of the tool.",
+                        "OK"
+                    );
                 else
-                    createNewMeasureTape();
+                    CreateNewMeasureTape();
             }
         }
         else
         {
             if (GameObject.Find("MeasureTape") != null)
-                addNewMeasureTape(GameObject.Find("MeasureTape"));
+                AddNewMeasureTape(GameObject.Find("MeasureTape"));
             else
-                createNewMeasureTape();
+                CreateNewMeasureTape();
         }
     }
 
-    static void createNewMeasureTape()
+    private static void CreateNewMeasureTape()
     {
-        GameObject go = new GameObject("MeasureTape");
+        var go = new GameObject("MeasureTape");
         go.transform.position = Vector3.zero;
         go.AddComponent(typeof(MeasureTape));
     }
 
-    static void addNewMeasureTape(GameObject go)
+    private static void AddNewMeasureTape(GameObject go)
     {
         go.AddComponent(typeof(MeasureTape));
     }
